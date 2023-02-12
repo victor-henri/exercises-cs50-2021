@@ -4,10 +4,10 @@
 #include <ctype.h>
 #include <math.h>
 
-// Coleman-Liau index
-// index = 0,0588 * L - 0,296 * S - 15,8
-// L = Average number of letters per 100 words.
-// S = Average number of sentences per 100 words.
+// Índice Coleman-Liau
+// indice = 0,0588 * L - 0,296 * S - 15,8
+// L = Número médio de letras por 100 palavras.
+// S = Número médio de frases por 100 palavras.
 
 int main(void)
 {
@@ -17,8 +17,8 @@ int main(void)
     int words = 0;
     int sentences = 0;
 
-    // Iterates over the text, to count
-    // the variables used in the formula.
+    // Itera pelo texto, para contar
+    // as variáveis usadas na fórmula.
     for (int i = 0, n = strlen(text); i < n; i++)
     {
         if (isalpha(text[i]))
@@ -37,13 +37,13 @@ int main(void)
 
     words += 1;
 
-    // Calculation to get the index.
+    // Cálculo para obter o índice.
     float average_letters = (float) letters / words * 100;
     float average_sentences = (float) sentences / words * 100;
     float formula = 0.0588 * average_letters - 0.296 * average_sentences - 15.8;
     int index = round(formula);
 
-    //Selecting and printing grade.
+    // Seleção e print da grade.
     if (index < 1)
     {
         printf("Before Grade 1\n");

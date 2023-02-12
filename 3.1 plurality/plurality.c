@@ -2,10 +2,10 @@
 #include <stdio.h>
 #include <string.h>
 
-// Max number of candidates
+// Número máximo de candidatos
 #define MAX 9
 
-// Candidates have name and vote count
+// Candidatos possuem nome e o contador de votos.
 typedef struct
 {
     string name;
@@ -13,26 +13,26 @@ typedef struct
 }
 candidate;
 
-// Array of candidates
+// Matriz de candidatos
 candidate candidates[MAX];
 
-// Number of candidates
+// Número de candidatos
 int candidate_count;
 
-// Function prototypes
+// Protótipos de funções
 bool vote(string name);
 void print_winner(void);
 
 int main(int argc, string argv[])
 {
-    // Check for invalid usage
+    // Checa uso indevido
     if (argc < 2)
     {
         printf("Usage: plurality [candidate ...]\n");
         return 1;
     }
 
-    // Populate array of candidates
+    // Popula a matriz de candidatos.
     candidate_count = argc - 1;
     if (candidate_count > MAX)
     {
@@ -47,23 +47,23 @@ int main(int argc, string argv[])
 
     int voter_count = get_int("Number of voters: ");
 
-    // Loop over all voters
+    // Percorre todos os eleitores.
     for (int i = 0; i < voter_count; i++)
     {
         string name = get_string("Vote: ");
 
-        // Check for invalid vote
+        // Checa voto inválido.
         if (!vote(name))
         {
             printf("Invalid vote.\n");
         }
     }
 
-    // Display winner of election
+    // Mostra o vencedor da eleição
     print_winner();
 }
 
-// Update vote totals given a new vote
+// Atualiza o total de votos dado um novo voto.
 bool vote(string name)
 {
     for (int i = 0; i < candidate_count; i++)
@@ -77,12 +77,12 @@ bool vote(string name)
     return false;
 }
 
-// Print the winner (or winners) of the election
+// Printa o vencedor (ou vencedores) da eleição.
 void print_winner(void)
 {
     int votes = candidates[0].votes;
 
-    // Get the high value in votes.
+    // Obtém o maior valor dos votos.
     for (int i = 0; i < candidate_count; i++)
     {
         if (votes < candidates[i].votes)
@@ -91,7 +91,7 @@ void print_winner(void)
         }
     }
 
-    // Compare votes to each candidate.
+    // Compara os votos de cada candidato.
     for (int j = 0; j < candidate_count; j++)
     {
         if (votes == candidates[j].votes)

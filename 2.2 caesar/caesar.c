@@ -8,16 +8,17 @@ int main(int argc, string argv[])
 {
     if (argc == 2)
     {
-        // Checks if it is a positive number.
+        // Checa se é um numero positivo.
         if (atoi(argv[1]) < 1)
         {
             printf("Usage: ./caesar key\n");
-            return 0;
+            return 1;
         }
 
-        //Creates a dictionary from 'a' to 'z'.
+        // Cria um dicionário de 'a' até 'z'.
         int dictionary[26];
-        for (int i = 0; i <= 26; i++)
+
+        for (int i = 0; i < 26; i++)
         {
             dictionary[i] = 97 + i;
         }
@@ -26,27 +27,28 @@ int main(int argc, string argv[])
         int cipher = atoi(argv[1]);
         printf("ciphertext: ");
 
-        for (int i = 0, n = strlen(plain_text); i <= n; i++)
+        for (int i = 0, n = strlen(plain_text); i < n; i++)
         {
             int letter_value = (int) plain_text[i];
             int dict_position;
 
-            // Goes through the dictionary to get the position.
-            for (int j = 0; j <= 26; j++)
+            // Percorre o dicionário para obter a posição
+            for (int j = 0; j < 26; j++)
             {
-                int value_upper = letter_value + 32; // 32 positions in ASCII
+                int value_upper = letter_value + 32; // 32 posições in ASCII
+
                 if (letter_value == dictionary[j] || value_upper == dictionary[j])
                 {
                     dict_position = j;
                 }
             }
 
-            // Formula to get the correspondent value in position of the dictionary.
+            // Fórmula para obter o valor correspondente na posição do dicionário.
             int position = (dict_position + cipher) % 26;
             int dictionary_letter = (int) dictionary[position];
             char letter_cipher;
 
-            // Selection to print.
+            // Seleção para printar.
             if (islower((char) plain_text[i]))
             {
                 letter_cipher = tolower((char) dictionary_letter);
@@ -64,11 +66,11 @@ int main(int argc, string argv[])
         }
 
         printf("\n");
-        return 1;
+        return 0;
     }
     else
     {
         printf("Usage: ./caesar key\n");
-        return 0;
+        return 1;
     }
 }

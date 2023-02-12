@@ -3,7 +3,7 @@
 
 int main(void)
 {
-    // Ask and check if this is a positive int.
+    // Pergunta e checa se é um inteiro positivo.
     int rows;
     do
     {
@@ -13,13 +13,13 @@ int main(void)
 
     for (int i = 1; i <= rows; i++)
     {
-        // Create blank_spaces.
+        // Cria espaços em branco.
         for (int j = rows; j > i; j--)
         {
             printf(" ");
         }
 
-        // Create left column.
+        // Cria as colunas a esquerda.
         for (int k = 1; k <= i; k++)
         {
             printf("#");
@@ -27,7 +27,7 @@ int main(void)
 
         printf("  ");
 
-        //Create right column.
+        //Cria as colunas a direita.
         for (int l = 1; l <= i; l++)
         {
             printf("#");

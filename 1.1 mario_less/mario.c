@@ -10,16 +10,16 @@ int main(void)
     }
     while (rows < 1 || rows > 8);
 
-    // Create rows
+    // Cria linhas
     for (int i = 1; i <= rows; i++)
     {
-        // Create white spaces
+        // Cria espaços em branco
         for (int j = rows; j > i; j--)
         {
             printf(" ");
         }
 
-        // Create columns
+        // Cria colunas
         for (int k = 1; k <= i; k++)
         {
             printf("#");

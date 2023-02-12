@@ -15,39 +15,66 @@ int main(int argc, string argv[])
         if (key_lenght == 26)
         {
             string key = argv[1];
+            int dictionary[26];
 
-            for (int i = 0; i <= 25; i++)
+            // Cria o dicionário e atualiza a chave para caracteres maiusculos.
+            for (int h = 0; h < 26; h++)
+            {
+                dictionary[h] = 65 + h; // 65 = 'A' no ASCII.
+
+                if (islower(key[h]) != 0) // Se for minusculo, atualiza para maiusculo.
+                {
+                    int value = (int) key[h];
+                    key[h] = (char) value - 32;
+                }
+            }
+
+            for (int i = 0; i < 26; i++)
             {
                 char key_letter = (char) key[i];
+                char dict_letter = (char) dictionary[i];
 
-                // Key verifications.
-                if(!isalpha(key_letter) && !isspace(key_letter))
+                // Verificações de chave.
+                if (!isalpha(key_letter))
                 {
                     printf("Incorrect key value -> %c\n", key_letter);
                     return 1;
                 }
-                if (islower(key_letter))
+                else if (isspace(key_letter))
+                {
+                    printf("Incorrect key value.");
+                    return 1;
+                }
+                else if (islower(key_letter))
                 {
                     int key_value = (int) key[i] - 32;
                     key[i] = (int) key_value;
                 }
-                // Need to implement duplicate character validation.
-            }
 
-            int dictionary[key_lenght];
+                int matches = 0;
 
-            // Creates a dictionary.
-            for (int j = 0; j <= key_lenght; j++)
-            {
-                dictionary[j] = 65 + j; // 65 = A in ASCII.
+                for (int j = 0; j < 26; j++)
+                {
+                    char temp_key = (char) key[j];
+                    if (dict_letter == temp_key)
+                    {
+                        matches += 1;
+
+                        if (matches > 1)
+                        {
+                            printf("Duplicate characters in key.\n");
+                            return 1;
+                        }
+                    }
+                }
             }
 
             string plain_text = get_string("plaintext: ");
             printf("ciphertext: ");
 
-            for (int k = 0, n = strlen(plain_text); k <= n; k++)
+            for (int k = 0, n = strlen(plain_text); k < n; k++)
             {
-                // Gets the respective position from the dictionary.
+                // Obtém a respectiva posição do dicionário.
                 char letter = (char) plain_text[k];
                 int position = return_position(letter, dictionary);
                 int key_character = (int) key[position];
@@ -85,17 +112,16 @@ int main(int argc, string argv[])
 
 int return_position(char letter, int dictionary[])
 {
-    int position;
     letter = toupper(letter);
     int value_letter = (int) letter;
 
-    for (int i = 0; i <= 26; i++)
+    for (int i = 0; i < 26; i++)
     {
         int character = (int) dictionary[i];
         if (value_letter == character)
         {
-            position = i;
+            return i;
         }
     }
-    return position;
+    return -1;
 }

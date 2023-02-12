@@ -8,7 +8,7 @@ int validate_banner(long credit_card);
 
 int main(void)
 {
-    // Ask for credit card number.
+    // Pergunta pelo número do cartão de crédito.
     long credit_card;
     do
     {
@@ -16,11 +16,11 @@ int main(void)
     }
     while (credit_card <= 0);
 
-    // Validate the checksum and banner.
+    // Valida o checksum e a bandeira.
     bool validate = validate_checksum(credit_card);
     int banner = validate_banner(credit_card);
 
-    // Final boolean validations
+    // Validações finais booleanas.
     if (banner == 1 && validate == true)
     {
         printf("AMEX\n");
@@ -48,27 +48,27 @@ int validate_checksum(long credit_card)
 
     while (credit_card > 0)
     {
-        // Save the last digit, remove the digit from the credit_card
-        // and store the counter to use the element's position.
+        // Salva o último digito, remove o dígito do cartão de crédito
+        // e guarda o contador para usar a posição do elemento.
         int last_digit = credit_card % 10;
         long digits = credit_card /= 10;
         counter += 1;
 
         int value;
 
-        // If the position is even.
+        // Se a posição é par.
         if (counter % 2 == 0)
         {
             value = last_digit * 2;
 
             if (value > 9)
             {
-                // If the result has two decimal elements,
-                // store the last element, and subtract the previous
-                // value with this last element.
-                // Calls a functions with the value already subtracted
-                // to get the first decimal element,
-                // and sums the separate values.
+                // Se o resultado tem dois elementos decimais,
+                // guarda o último elemento, e subtrai o valor
+                // anterior com o ultimo elemento.
+                // Chama uma função com o valor já subtraído
+                // para pegar o primeiro elemento decimal,
+                // e soma os valores separados.
                 int new_last = value % 10;
                 int new_value = value - new_last;
                 int value_return = separate_digits(new_value);
@@ -79,17 +79,17 @@ int validate_checksum(long credit_card)
                 sum_position_even += value;
             }
         }
-        // If the position is odd.
+        // Se a posição é impar.
         else
         {
             sum_position_odd += last_digit;
         }
-        // Sum of all elements
-        // in even and odd positions.
+        // Soma de todos os elementos
+        // nas posições pares e ímpares.
         total_sum = sum_position_even + sum_position_odd;
     }
 
-    // Checks and returns if the last digit is 0.
+    // Checa e retorna se o último digito é 0.
     int verifying_digit = total_sum % 10;
     if (verifying_digit == 0)
     {
@@ -103,8 +103,8 @@ int validate_checksum(long credit_card)
 
 int separate_digits(int value)
 {
-    // Receives a value already subtracted
-    // to extract the first decimal element.
+    // Recebe um valor já subtraído
+    // para extrair o primeiro elemento decimal.
     int new_value = 0;
     if (value % 10 == 0)
     {
@@ -124,13 +124,13 @@ int validate_banner(long credit_card)
 
     while (credit_card > 0)
     {
-        // Process of counting the total
-        // elements of the credit_card.
+        // Processo de contagem do total
+        // de elementos no cartão de crédito.
         int last_digit = credit_card % 10;
         long digits = credit_card /= 10;
         counter += 1;
 
-        // Stores position values.
+        // Guarda a posição dos valores.
         if (counter == 12)
         {
             position_12 = last_digit;
@@ -153,8 +153,7 @@ int validate_banner(long credit_card)
         }
     }
 
-    // Validates and returns the card banner.
-    // Need improvements*
+    // Valida e retorna a bandeira.
     if ((position_15 == 3 && position_14 == 4) || (position_15 == 3 && position_14 == 7))
     {
         return 1;

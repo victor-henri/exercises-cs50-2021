@@ -2,16 +2,16 @@
 #include <stdio.h>
 #include <string.h>
 
-// Max number of candidates
+// Número máximo de candidatos
 #define MAX 9
 
-// preferences[i][j] is number of voters who prefer i over j
+// preferences[i][j] é o número de eleitores que preferem i sobre j.
 int preferences[MAX][MAX];
 
-// locked[i][j] means i is locked in over j
+// locked[i][j] significa que i está locked em cima de j.
 bool locked[MAX][MAX];
 
-// Each pair has a winner, loser
+// Cada par tem um vencedor e perdedor.
 typedef struct
 {
     int winner;
@@ -19,15 +19,15 @@ typedef struct
 }
 pair;
 
-// Array of candidates
+// Matriz de candidatos
 string candidates[MAX];
+
 pair pairs[MAX * (MAX - 1) / 2];
 pair pairs_temp[MAX * (MAX - 1) / 2];
-
 int pair_count;
 int candidate_count;
 
-// Function prototypes
+// Protótipos de funções.
 bool vote(int rank, string name, int ranks[]);
 void record_preferences(int ranks[]);
 void add_pairs(void);
@@ -39,14 +39,14 @@ void print_winner(void);
 
 int main(int argc, string argv[])
 {
-    // Check for invalid usage
+    // Checa por uso indevido.
     if (argc < 2)
     {
         printf("Usage: tideman [candidate ...]\n");
         return 1;
     }
 
-    // Populate array of candidates
+    // Popula a matriz de candidatos.
     candidate_count = argc - 1;
     if (candidate_count > MAX)
     {
@@ -58,7 +58,7 @@ int main(int argc, string argv[])
         candidates[i] = argv[i + 1];
     }
 
-    // Clear graph of locked in pairs
+    // Limpa o grafo de locked nos pares.
     for (int i = 0; i < candidate_count; i++)
     {
         for (int j = 0; j < candidate_count; j++)
@@ -70,13 +70,13 @@ int main(int argc, string argv[])
     pair_count = 0;
     int voter_count = get_int("Number of voters: ");
 
-    // Query for votes
+    // Consulta de votos
     for (int i = 0; i < voter_count; i++)
     {
-        // ranks[i] is voter's ith preference
+        // ranks[i] é a i-ésima preferência do eleitor.
         int ranks[candidate_count];
 
-        // Query for each rank
+        // Consulta para cada classificação.
         for (int j = 0; j < candidate_count; j++)
         {
             string name = get_string("Rank %i: ", j + 1);
@@ -100,7 +100,7 @@ int main(int argc, string argv[])
     return 0;
 }
 
-// Update ranks given a new vote
+// Atualiza as classificações dado um novo voto.
 bool vote(int rank, string name, int ranks[])
 {
     for (int i = 0; i < candidate_count; i++)
@@ -114,7 +114,7 @@ bool vote(int rank, string name, int ranks[])
     return false;
 }
 
-// Update preferences given one voter's ranks
+// Atualiza as preferências dadas as classificações de um eleitor.
 void record_preferences(int ranks[])
 {
     for (int i = 0; i < candidate_count - 1; i++)
@@ -128,14 +128,9 @@ void record_preferences(int ranks[])
     }
 }
 
-// Record pairs of candidates where one is preferred over the other
+// Registra pares de candidatos onde um é preferido sobre o outro.
 void add_pairs(void)
 {
-    // Percorrer [x] e obter o maior valor.
-    // Comparar [x][y] > [y][x] e adiciona pair_count +1
-    // Se true então armazena em pair
-
-
     for (int x = 0; x < candidate_count; x++)
     {
         int high_preference = 0;
@@ -165,7 +160,7 @@ void add_pairs(void)
     }
 }
 
-// Sort pairs in decreasing order by strength of victory
+// Ordena os pares em ordem decrescente de força de vitória.
 void sort_pairs(void)
 {
     for (int i = 0; i < pair_count; i++)
@@ -198,7 +193,7 @@ void sort_pairs(void)
     }
 }
 
-// Lock pairs into the candidate graph in order, without creating cycles
+// Trava os pares de grafo do candidato em ordem, sem criar ciclos.
 void lock_pairs(void)
 {
     for (int i = 0; i < pair_count; i++)
@@ -222,6 +217,7 @@ void lock_pairs(void)
     }
 }
 
+// Função recursiva para descobrir se há ciclo ou não.
 bool cycle(int initial, int principle)
 {
     bool check = false;
@@ -249,7 +245,6 @@ bool cycle(int initial, int principle)
         }
         else
         {
-            // return cycle(position_y, principle);
             if (cycle(position_y, principle))
             {
                 return true;
@@ -259,7 +254,7 @@ bool cycle(int initial, int principle)
     return false;
 }
 
-// Print the winner of the election
+// Printa o vencedor da eleição.
 void print_winner(void)
 {
     int candidate;

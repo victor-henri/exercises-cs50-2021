@@ -6,7 +6,7 @@ int total_coins(int value);
 
 int main(void)
 {
-    // Repeat if value is not positive.
+    // Repete se não for um valor positivo.
     double dollar, cents;
     float value;
     int coins;
@@ -17,12 +17,11 @@ int main(void)
     }
     while (value <= 0.00);
 
-    // Check if have only cents or not.
+    // Checa se tem apenas centavos ou não.
     cents = modf(value, &dollar);
     cents = round(cents * 100);
 
-    // Treats (or doesn't) the cents if don't
-    // have a dollar.
+    // Trata (ou não) os centavos se não tiver dolares.
     if (dollar <= 0)
     {
         int total_cents = (int) cents;
@@ -46,8 +45,8 @@ int total_coins(int value)
     int nickel = 5;
     int pennie = 1;
 
-    // Compare the value to count how many
-    // coins are needed.
+    // Compara os valores para saber
+    // quantas moedas serão necessárias.
     while (value > 0)
     {
         if (value >= quarter)
