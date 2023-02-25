@@ -8,6 +8,7 @@ int return_position(char letter, int dictionary[]);
 
 int main(int argc, string argv[])
 {
+    // Verifica se o usuário inseriu a chave.
     if (argc == 2)
     {
         int key_lenght = strlen(argv[1]);
@@ -22,37 +23,41 @@ int main(int argc, string argv[])
             {
                 dictionary[h] = 65 + h; // 65 = 'A' no ASCII.
 
-                if (islower(key[h]) != 0) // Se for minusculo, atualiza para maiusculo.
+                // Se a letra na chave for minúscula, atualiza para maiúscula.
+                if (islower(key[h]) != 0)
                 {
                     int value = (int) key[h];
                     key[h] = (char) value - 32;
                 }
             }
 
+            // Verificações de validade da chave.
             for (int i = 0; i < 26; i++)
             {
                 char key_letter = (char) key[i];
                 char dict_letter = (char) dictionary[i];
 
-                // Verificações de chave.
+                // Verifica se a letra na chave é alfabética.
                 if (!isalpha(key_letter))
                 {
                     printf("Incorrect key value -> %c\n", key_letter);
                     return 1;
                 }
+                // Verifica se há espaços em branco na chave.
                 else if (isspace(key_letter))
                 {
                     printf("Incorrect key value.");
                     return 1;
                 }
+                // Se a letra na chave for minúscula, atualiza para maiúscula.
                 else if (islower(key_letter))
                 {
                     int key_value = (int) key[i] - 32;
                     key[i] = (int) key_value;
                 }
 
+                // Verifica se há caracteres duplicados na chave.
                 int matches = 0;
-
                 for (int j = 0; j < 26; j++)
                 {
                     char temp_key = (char) key[j];
@@ -72,9 +77,10 @@ int main(int argc, string argv[])
             string plain_text = get_string("plaintext: ");
             printf("ciphertext: ");
 
+            // Criptografa o texto.
             for (int k = 0, n = strlen(plain_text); k < n; k++)
             {
-                // Obtém a respectiva posição do dicionário.
+                // Obtém a posição da letra no dicionário.
                 char letter = (char) plain_text[k];
                 int position = return_position(letter, dictionary);
                 int key_character = (int) key[position];

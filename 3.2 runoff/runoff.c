@@ -7,10 +7,9 @@
 #define MAX_VOTERS 100
 #define MAX_CANDIDATES 9
 
-// preferences[i][j] é a jth preferência do eleitor i.
+// preferences[i][j] é a i-ésima preferência do eleitor i.
 int preferences[MAX_VOTERS][MAX_CANDIDATES];
 
-// Candidatos possuem nome, contador de votos, e status de eliminado.
 typedef struct
 {
     string name;
@@ -22,7 +21,6 @@ candidate;
 // matriz de candidatos.
 candidate candidates[MAX_CANDIDATES];
 
-// Contadores de votos e candidatos.
 int voter_count;
 int candidate_count;
 

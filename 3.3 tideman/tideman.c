@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <string.h>
 
-// Número máximo de candidatos
 #define MAX 9
 
 // preferences[i][j] é o número de eleitores que preferem i sobre j.
@@ -277,5 +276,3 @@ void print_winner(void)
     }
     printf("%s\n", candidates[candidate]);
 }
-
-

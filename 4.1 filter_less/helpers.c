@@ -1,7 +1,7 @@
 #include "helpers.h"
 #include <math.h>
 
-// Convert image to grayscale
+// Converte a imagem para escala de cinza.
 void grayscale(int height, int width, RGBTRIPLE image[height][width])
 {
     for (int h = 0; h < height; h++)
@@ -21,7 +21,40 @@ void grayscale(int height, int width, RGBTRIPLE image[height][width])
     }
 }
 
-// Reflect image horizontally
+// Converte a imagem para sépia.
+void sepia(int height, int width, RGBTRIPLE image[height][width])
+{
+    for (int y = 0; y < height; y++)
+    {
+        for (int x = 0; x < width; x++)
+        {
+            int sepiaRed = round(.393 * image[y][x].rgbtRed
+                               + .769 * image[y][x].rgbtGreen
+                               + .189 * image[y][x].rgbtBlue);
+
+            int sepiaGreen = round(.349 * image[y][x].rgbtRed
+                                 + .686 * image[y][x].rgbtGreen
+                                 + .168 * image[y][x].rgbtBlue);
+
+            int sepiaBlue = round(.272 * image[y][x].rgbtRed
+                                + .534 * image[y][x].rgbtGreen
+                                + .131 * image[y][x].rgbtBlue);
+
+            if (sepiaRed > 255)
+            {sepiaRed = 255;}
+            if (sepiaGreen > 255)
+            {sepiaGreen = 255;}
+            if (sepiaBlue > 255)
+            {sepiaBlue = 255;}
+
+            image[y][x].rgbtRed = sepiaRed;
+            image[y][x].rgbtGreen = sepiaGreen;
+            image[y][x].rgbtBlue = sepiaBlue;
+        }
+    }
+}
+
+// Reflete a imagem horizontalmente.
 void reflect(int height, int width, RGBTRIPLE image[height][width])
 {
     for (int h = 0; h < height; h++)
@@ -45,7 +78,7 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
     }
 }
 
-// Blur image
+// Embaça a imagem.
 void blur(int height, int width, RGBTRIPLE image[height][width])
 {
     // Copia em branco para inserir valores sem afetar o original.
@@ -65,7 +98,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
     {
         for (int x = 0; x < width; x++)
         {
-            //    QUADRANTS
+            //    Quadrantes
             //  | A | B | C |
             //  | D | E | F |
             //  | G | H | I |
@@ -78,14 +111,14 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
             int avg_green;
             int avg_red;
 
-            // 4 pieces - Bottom and Top.
+            // 4 partes - Superior e Inferior.
             if ((y == 0 || y == height - 1) && (x == 0 || x == width - 1))
             {
-                if (y == height - 1) // Bottom
+                if (y == height - 1) // Inferior.
                 {
                     for (int l = - 1; l < 1; l++)
                     {
-                        if (x == width - 1) // I
+                        if (x == width - 1) // Quadrante I.
                         {
                             for (int c = - 1; c < 1; c++)
                             {
@@ -94,7 +127,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                                 red_sum += image[y + l][x + c].rgbtRed;
                             }
                         }
-                        else // G
+                        else // Quadrante G.
                         {
                             for (int c = 0; c < 2; c++)
                             {
@@ -105,11 +138,11 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                         }
                     }
                 }
-                else // Top
+                else // Superior
                 {
                     for (int l = 0; l < 2; l++)
                     {
-                        if (x == width - 1) // C
+                        if (x == width - 1) // Quadrante C
                         {
                             for (int c = - 1; c < 1; c++)
                             {
@@ -118,7 +151,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                                 red_sum += image[y + l][x + c].rgbtRed;
                             }
                         }
-                        else // A
+                        else // Quadrante A
                         {
                             for (int c = 0; c < 2; c++)
                             {
@@ -139,10 +172,10 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                 image_tmp[y][x].rgbtRed = avg_red;
 
             }
-            // Six pieces - Bottom and Top.
+            // 6 partes - Superior e Inferior
             else if ((y == 0 || y == height - 1) && (x >= 1 || x <= width - 2))
             {
-                if (y == height - 1) // H
+                if (y == height - 1) // Quadrante H
                 {
                     for (int l = - 1; l < 1; l++)
                     {
@@ -154,7 +187,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                         }
                     }
                 }
-                else // B
+                else // Quadrante B
                 {
                     for (int l = 0; l < 2; l++)
                     {
@@ -176,10 +209,10 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                 image_tmp[y][x].rgbtRed = avg_red;
 
             }
-            // Six pieces - Right and Left.
+            // 6 Partes - Direita e Esquerda.
             else if ((y >= 1 || y <= height - 2) && (x == 0 || x == width - 1))
             {
-                if (x == width - 1) // F
+                if (x == width - 1) // Quadrante F
                 {
                     for (int l = - 1; l < 2; l++)
                     {
@@ -191,7 +224,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                         }
                     }
                 }
-                else // D
+                else // Quadrante D
                 {
                     for (int l = - 1; l < 2; l++)
                     {
@@ -213,7 +246,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                 image_tmp[y][x].rgbtRed = avg_red;
 
             }
-            // Nine pieces - All
+            // 9 partes - Todos
             else
             {
                 for (int l = - 1; l < 2; l++)
@@ -234,94 +267,6 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                 image_tmp[y][x].rgbtGreen = avg_green;
                 image_tmp[y][x].rgbtRed = avg_red;
             }
-        }
-    }
-
-    for (int a = 0; a < height; a++)
-    {
-        for (int b = 0; b < width; b++)
-        {
-            image[a][b].rgbtBlue = image_tmp[a][b].rgbtBlue;
-            image[a][b].rgbtGreen = image_tmp[a][b].rgbtGreen;
-            image[a][b].rgbtRed = image_tmp[a][b].rgbtRed;
-        }
-    }
-}
-
-// Detect edges
-void edges(int height, int width, RGBTRIPLE image[height][width])
-{
-    // Copia em branco para inserir valores sem afetar o original.
-    RGBTRIPLE image_tmp[height][width];
-
-    for (int l = 0; l < height; l++)
-    {
-        for (int c = 0; c < width; c++)
-        {
-            image_tmp[l][c].rgbtBlue = 0;
-            image_tmp[l][c].rgbtGreen = 0;
-            image_tmp[l][c].rgbtRed = 0;
-        }
-    }
-
-    int gx[3][3] = {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}};
-    int gy[3][3] = {{-1, -2, -1}, {0, 0, 0}, {1, 2, 1}};
-
-    int gx_blue, gx_green, gx_red;
-    int gy_blue, gy_green, gy_red;
-
-    for (int y = 0; y < height; y++)
-    {
-        for (int x = 0; x < width; x++)
-        {
-            gx_blue = 0; gx_green = 0; gx_red = 0;
-            gy_blue = 0; gy_green = 0; gy_red = 0;
-
-            for (int l = - 1; l < 2; l++)
-            {
-                for (int c = - 1; c < 2; c++)
-                {
-                    if (y + l < 0 || y + l > height - 1)
-                    {
-                        continue;
-                    }
-
-                    if (x + c < 0 || x + c > width - 1)
-                    {
-                        continue;
-                    }
-
-                    gx_blue += image[y + l][x + c].rgbtBlue * gx[l + 1][c + 1];
-                    gx_green += image[y + l][x + c].rgbtGreen * gx[l + 1][c + 1];
-                    gx_red += image[y + l][x + c].rgbtRed * gx[l + 1][c + 1];
-
-                    gy_blue += image[y + l][x + c].rgbtBlue * gy[l + 1][c + 1];
-                    gy_green += image[y + l][x + c].rgbtGreen * gy[l + 1][c + 1];
-                    gy_red += image[y + l][x + c].rgbtRed * gy[l + 1][c + 1];
-
-                }
-            }
-
-            int sum_blue = round(sqrt(gx_blue * gx_blue + gy_blue * gy_blue));
-            int sum_green = round(sqrt(gx_green * gx_green + gy_green * gy_green));
-            int sum_red = round(sqrt(gx_red * gx_red + gy_red * gy_red));
-
-            if(sum_blue > 255)
-            {
-                sum_blue = 255;
-            }
-            if(sum_green > 255)
-            {
-                sum_green = 255;
-            }
-            if(sum_red > 255)
-            {
-                sum_red = 255;
-            }
-
-            image_tmp[y][x].rgbtBlue = sum_blue;
-            image_tmp[y][x].rgbtGreen = sum_green;
-            image_tmp[y][x].rgbtRed = sum_red;
         }
     }
 

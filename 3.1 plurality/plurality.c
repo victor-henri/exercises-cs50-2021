@@ -2,10 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 
-// Número máximo de candidatos
 #define MAX 9
 
-// Candidatos possuem nome e o contador de votos.
 typedef struct
 {
     string name;
@@ -59,7 +57,6 @@ int main(int argc, string argv[])
         }
     }
 
-    // Mostra o vencedor da eleição
     print_winner();
 }
 
@@ -100,4 +97,3 @@ void print_winner(void)
         }
     }
 }
-

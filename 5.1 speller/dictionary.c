@@ -1,4 +1,4 @@
-// Implements a dictionary's functionality
+// Implementa a funcionalidade de um dicionário
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -8,7 +8,7 @@
 #include <strings.h>
 #include "dictionary.h"
 
-// Represents a node in a hash table
+// Representa um nó numa tabela hash
 typedef struct node
 {
     char word[LENGTH + 1];
@@ -16,15 +16,15 @@ typedef struct node
 }
 node;
 
-// Number of buckets in hash table
+// Número de baldes na tabela hash
 #define N 26
 
-// Hash table
+// Tabela Hash
 node *table[N];
 
 int dict_size = 0;
 
-// Returns true if word is in dictionary, else false
+// Retorna verdadeiro se a palavra está no dicionário, senão falso
 bool check(const char *word)
 {
     int hash_value = hash(word);
@@ -42,10 +42,10 @@ bool check(const char *word)
     return false;
 }
 
-// Hashes word to a number
+// Faz o hash da palavra para um número
 unsigned int hash(const char *word)
 {
-    /* djb2 by Dan Bernstring */
+    /* Algoritmo djb2 por Dan Bernstring */
     unsigned long hash = 5381;
     int c;
     while ((c = tolower(*word++)))
@@ -55,7 +55,7 @@ unsigned int hash(const char *word)
     return hash % N;
 }
 
-// Loads dictionary into memory, returning true if successful, else false
+// Carga do dicionário na memória, retornando verdadeiro se bem sucedido, senão falso
 bool load(const char *dictionary)
 {
     FILE *dict = fopen(dictionary, "r");
@@ -88,23 +88,21 @@ bool load(const char *dictionary)
     return true;
 }
 
-// Returns number of words in dictionary if loaded, else 0 if not yet loaded
+// Devolve o número de palavras no dicionário se carregadas, ou 0 se ainda não carregadas
 unsigned int size(void)
 {
     if (dict_size > 0)
     {
         return dict_size;
     }
-
     return 0;
 }
 
-// Unloads dictionary from memory, returning true if successful, else false
+// Descarrega o dicionário da memória, retornando verdadeiro se bem sucedido, senão falso
 bool unload(void)
 {
     for(int i=0;i<N;i++)
     {
-
         node *tmp1=table[i];
         while(tmp1!=NULL)
         {
